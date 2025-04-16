@@ -49,7 +49,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     });
 
     if (newUser) {
-      generateToken(newUser.id, res);
+      generateToken(String(newUser.id), res);
 
       res.status(201).json({
         id: newUser.id,
@@ -94,11 +94,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    generateToken(user.id, res);
+    generateToken(String(user.id), res);
 
     res.status(200).json({
       id: user.id,
-      name: user.fullName,
+      name: user.name,
       username: user.username,
     });
   } catch (error: any) {
