@@ -6,6 +6,30 @@ import prisma from '../db/prisma';
 const apiKey = process.env.GEMINI_API as string;
 const genAI = new GoogleGenerativeAI(apiKey);
 
+const SearchWithSerpAPI = async (query: string) => {
+  try {
+    const response = await axios.get('https://serpapi.com/search', {
+      params: {
+        engine: 'google',
+        q: query,
+        api_key: process.env.SERP_API,
+      },
+    });
+
+    const results =
+      response.data.organic_results.map((result: any) => ({
+        title: result.title,
+        link: result.link,
+        snippet: result.snippet,
+      })) || [];
+
+    return results;
+  } catch (error) {
+    console.error('Error fetching from SerpAPI: ', error);
+    return [];
+  }
+};
+
 export const createPrompt = async (
   req: Request,
   res: Response
@@ -22,6 +46,8 @@ export const createPrompt = async (
     const response = result.response;
     const summary = response.text() || 'No summary generated';
 
+    const searchResults = await SearchWithSerpAPI(summary);
+
     const savedPrompt = await prisma.prompt.create({
       data: {
         userId,
@@ -34,6 +60,7 @@ export const createPrompt = async (
       id: savedPrompt.id,
       content,
       summary,
+      searchResults,
       createdAt: savedPrompt.createdAt,
     });
   } catch (error) {
