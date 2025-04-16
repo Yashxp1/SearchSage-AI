@@ -26,8 +26,7 @@ model Prompt {
   id        Int      @id @default(autoincrement())
   userId    Int
   content   String
-  result    String
-  summary   String?
+  summary   String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
 }
