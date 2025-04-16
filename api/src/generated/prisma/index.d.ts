@@ -2105,26 +2105,29 @@ export namespace Prisma {
 
   export type PromptMinAggregateOutputType = {
     id: number | null
+    userId: number | null
     content: string | null
+    result: string | null
     summary: string | null
     createdAt: Date | null
-    userId: number | null
   }
 
   export type PromptMaxAggregateOutputType = {
     id: number | null
+    userId: number | null
     content: string | null
+    result: string | null
     summary: string | null
     createdAt: Date | null
-    userId: number | null
   }
 
   export type PromptCountAggregateOutputType = {
     id: number
+    userId: number
     content: number
+    result: number
     summary: number
     createdAt: number
-    userId: number
     _all: number
   }
 
@@ -2141,26 +2144,29 @@ export namespace Prisma {
 
   export type PromptMinAggregateInputType = {
     id?: true
+    userId?: true
     content?: true
+    result?: true
     summary?: true
     createdAt?: true
-    userId?: true
   }
 
   export type PromptMaxAggregateInputType = {
     id?: true
+    userId?: true
     content?: true
+    result?: true
     summary?: true
     createdAt?: true
-    userId?: true
   }
 
   export type PromptCountAggregateInputType = {
     id?: true
+    userId?: true
     content?: true
+    result?: true
     summary?: true
     createdAt?: true
-    userId?: true
     _all?: true
   }
 
@@ -2252,10 +2258,11 @@ export namespace Prisma {
 
   export type PromptGroupByOutputType = {
     id: number
-    content: string
-    summary: string
-    createdAt: Date
     userId: number
+    content: string
+    result: string
+    summary: string | null
+    createdAt: Date
     _count: PromptCountAggregateOutputType | null
     _avg: PromptAvgAggregateOutputType | null
     _sum: PromptSumAggregateOutputType | null
@@ -2279,40 +2286,44 @@ export namespace Prisma {
 
   export type PromptSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     content?: boolean
+    result?: boolean
     summary?: boolean
     createdAt?: boolean
-    userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prompt"]>
 
   export type PromptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     content?: boolean
+    result?: boolean
     summary?: boolean
     createdAt?: boolean
-    userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prompt"]>
 
   export type PromptSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     content?: boolean
+    result?: boolean
     summary?: boolean
     createdAt?: boolean
-    userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["prompt"]>
 
   export type PromptSelectScalar = {
     id?: boolean
+    userId?: boolean
     content?: boolean
+    result?: boolean
     summary?: boolean
     createdAt?: boolean
-    userId?: boolean
   }
 
-  export type PromptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "summary" | "createdAt" | "userId", ExtArgs["result"]["prompt"]>
+  export type PromptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "result" | "summary" | "createdAt", ExtArgs["result"]["prompt"]>
   export type PromptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2330,10 +2341,11 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      content: string
-      summary: string
-      createdAt: Date
       userId: number
+      content: string
+      result: string
+      summary: string | null
+      createdAt: Date
     }, ExtArgs["result"]["prompt"]>
     composites: {}
   }
@@ -2759,10 +2771,11 @@ export namespace Prisma {
    */
   interface PromptFieldRefs {
     readonly id: FieldRef<"Prompt", 'Int'>
+    readonly userId: FieldRef<"Prompt", 'Int'>
     readonly content: FieldRef<"Prompt", 'String'>
+    readonly result: FieldRef<"Prompt", 'String'>
     readonly summary: FieldRef<"Prompt", 'String'>
     readonly createdAt: FieldRef<"Prompt", 'DateTime'>
-    readonly userId: FieldRef<"Prompt", 'Int'>
   }
     
 
@@ -3203,10 +3216,11 @@ export namespace Prisma {
 
   export const PromptScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     content: 'content',
+    result: 'result',
     summary: 'summary',
-    createdAt: 'createdAt',
-    userId: 'userId'
+    createdAt: 'createdAt'
   };
 
   export type PromptScalarFieldEnum = (typeof PromptScalarFieldEnum)[keyof typeof PromptScalarFieldEnum]
@@ -3226,6 +3240,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -3349,19 +3371,21 @@ export namespace Prisma {
     OR?: PromptWhereInput[]
     NOT?: PromptWhereInput | PromptWhereInput[]
     id?: IntFilter<"Prompt"> | number
-    content?: StringFilter<"Prompt"> | string
-    summary?: StringFilter<"Prompt"> | string
-    createdAt?: DateTimeFilter<"Prompt"> | Date | string
     userId?: IntFilter<"Prompt"> | number
+    content?: StringFilter<"Prompt"> | string
+    result?: StringFilter<"Prompt"> | string
+    summary?: StringNullableFilter<"Prompt"> | string | null
+    createdAt?: DateTimeFilter<"Prompt"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type PromptOrderByWithRelationInput = {
     id?: SortOrder
-    content?: SortOrder
-    summary?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
+    result?: SortOrder
+    summary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -3370,19 +3394,21 @@ export namespace Prisma {
     AND?: PromptWhereInput | PromptWhereInput[]
     OR?: PromptWhereInput[]
     NOT?: PromptWhereInput | PromptWhereInput[]
-    content?: StringFilter<"Prompt"> | string
-    summary?: StringFilter<"Prompt"> | string
-    createdAt?: DateTimeFilter<"Prompt"> | Date | string
     userId?: IntFilter<"Prompt"> | number
+    content?: StringFilter<"Prompt"> | string
+    result?: StringFilter<"Prompt"> | string
+    summary?: StringNullableFilter<"Prompt"> | string | null
+    createdAt?: DateTimeFilter<"Prompt"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type PromptOrderByWithAggregationInput = {
     id?: SortOrder
-    content?: SortOrder
-    summary?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
+    content?: SortOrder
+    result?: SortOrder
+    summary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     _count?: PromptCountOrderByAggregateInput
     _avg?: PromptAvgOrderByAggregateInput
     _max?: PromptMaxOrderByAggregateInput
@@ -3395,10 +3421,11 @@ export namespace Prisma {
     OR?: PromptScalarWhereWithAggregatesInput[]
     NOT?: PromptScalarWhereWithAggregatesInput | PromptScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Prompt"> | number
-    content?: StringWithAggregatesFilter<"Prompt"> | string
-    summary?: StringWithAggregatesFilter<"Prompt"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Prompt"> | Date | string
     userId?: IntWithAggregatesFilter<"Prompt"> | number
+    content?: StringWithAggregatesFilter<"Prompt"> | string
+    result?: StringWithAggregatesFilter<"Prompt"> | string
+    summary?: StringNullableWithAggregatesFilter<"Prompt"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Prompt"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -3453,54 +3480,61 @@ export namespace Prisma {
 
   export type PromptCreateInput = {
     content: string
-    summary: string
+    result: string
+    summary?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutPromptsInput
   }
 
   export type PromptUncheckedCreateInput = {
     id?: number
-    content: string
-    summary: string
-    createdAt?: Date | string
     userId: number
+    content: string
+    result: string
+    summary?: string | null
+    createdAt?: Date | string
   }
 
   export type PromptUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPromptsNestedInput
   }
 
   export type PromptUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PromptCreateManyInput = {
     id?: number
-    content: string
-    summary: string
-    createdAt?: Date | string
     userId: number
+    content: string
+    result: string
+    summary?: string | null
+    createdAt?: Date | string
   }
 
   export type PromptUpdateManyMutationInput = {
     content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PromptUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3602,6 +3636,21 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -3618,12 +3667,18 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PromptCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     content?: SortOrder
+    result?: SortOrder
     summary?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type PromptAvgOrderByAggregateInput = {
@@ -3633,23 +3688,43 @@ export namespace Prisma {
 
   export type PromptMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     content?: SortOrder
+    result?: SortOrder
     summary?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type PromptMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     content?: SortOrder
+    result?: SortOrder
     summary?: SortOrder
     createdAt?: SortOrder
-    userId?: SortOrder
   }
 
   export type PromptSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -3724,6 +3799,10 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutPromptsInput, UserUncheckedCreateWithoutPromptsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPromptsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -3807,6 +3886,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -3816,6 +3909,34 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -3834,14 +3955,16 @@ export namespace Prisma {
 
   export type PromptCreateWithoutUserInput = {
     content: string
-    summary: string
+    result: string
+    summary?: string | null
     createdAt?: Date | string
   }
 
   export type PromptUncheckedCreateWithoutUserInput = {
     id?: number
     content: string
-    summary: string
+    result: string
+    summary?: string | null
     createdAt?: Date | string
   }
 
@@ -3876,10 +3999,11 @@ export namespace Prisma {
     OR?: PromptScalarWhereInput[]
     NOT?: PromptScalarWhereInput | PromptScalarWhereInput[]
     id?: IntFilter<"Prompt"> | number
-    content?: StringFilter<"Prompt"> | string
-    summary?: StringFilter<"Prompt"> | string
-    createdAt?: DateTimeFilter<"Prompt"> | Date | string
     userId?: IntFilter<"Prompt"> | number
+    content?: StringFilter<"Prompt"> | string
+    result?: StringFilter<"Prompt"> | string
+    summary?: StringNullableFilter<"Prompt"> | string | null
+    createdAt?: DateTimeFilter<"Prompt"> | Date | string
   }
 
   export type UserCreateWithoutPromptsInput = {
@@ -3927,27 +4051,31 @@ export namespace Prisma {
   export type PromptCreateManyUserInput = {
     id?: number
     content: string
-    summary: string
+    result: string
+    summary?: string | null
     createdAt?: Date | string
   }
 
   export type PromptUpdateWithoutUserInput = {
     content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PromptUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PromptUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
-    summary?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

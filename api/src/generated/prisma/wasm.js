@@ -126,10 +126,11 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.PromptScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   content: 'content',
+  result: 'result',
   summary: 'summary',
-  createdAt: 'createdAt',
-  userId: 'userId'
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -140,6 +141,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 
