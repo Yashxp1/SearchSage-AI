@@ -6,7 +6,10 @@ import generateToken from '../utils/generateToken';
 
 const signupSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
-  username: z.string().trim().min(1, 'Username is required'),
+  username: z
+    .string()
+
+    .min(1, 'Username is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -52,6 +55,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       generateToken(String(newUser.id), res);
 
       res.status(201).json({
+        message: 'User registered successfully!',
         id: newUser.id,
         name: newUser.name,
         username: newUser.username,
@@ -97,6 +101,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     generateToken(String(user.id), res);
 
     res.status(200).json({
+      message: 'User logged in successfully!',
       id: user.id,
       name: user.name,
       username: user.username,
