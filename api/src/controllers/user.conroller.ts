@@ -2,18 +2,22 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import prisma from '../db/prisma';
-import { error } from 'console';
 import generateToken from '../utils/generateToken';
 
-const userSchema = z.object({
+const signupSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
+  username: z.string().trim().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const result = userSchema.safeParse(req.body);
+    const result = signupSchema.safeParse(req.body);
 
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors;
@@ -55,6 +59,57 @@ export const signup = async (req: Request, res: Response) => {
     }
   } catch (error: any) {
     console.log('Error in signup controller', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const login = async (req: Request, res: Response) => {
+  try {
+    const result = loginSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const errors = result.error.flatten().fieldErrors;
+      return res.status(400).json({ errors });
+    }
+
+    const { username, password } = result.data;
+
+    const user = await prisma.user.findUnique({ where: { username } });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, error: 'Invalid credentials' });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        success: false,
+        error: 'Incorrect password',
+      });
+    }
+
+    generateToken(user.id, res);
+
+    res.status(200).json({
+      id: user.id,
+      name: user.fullName,
+      username: user.username,
+    });
+  } catch (error: any) {
+    console.log('Error in login controller', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 0 });
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error: any) {
+    console.log('Error in logout controller', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
