@@ -15,13 +15,14 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const result = signupSchema.safeParse(req.body);
 
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors;
-      return res.status(400).json({ errors });
+      res.status(400).json({ errors });
+      return;
     }
 
     const { name, username, password } = result.data;
@@ -29,10 +30,11 @@ export const signup = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { username } });
 
     if (user) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Username already exists',
       });
+      return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -63,13 +65,14 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const result = loginSchema.safeParse(req.body);
 
     if (!result.success) {
       const errors = result.error.flatten().fieldErrors;
-      return res.status(400).json({ errors });
+      res.status(400).json({ errors });
+      return;
     }
 
     const { username, password } = result.data;
@@ -77,18 +80,18 @@ export const login = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, error: 'Invalid credentials' });
+      res.status(400).json({ success: false, error: 'Invalid credentials' });
+      return;
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Incorrect password',
       });
+      return;
     }
 
     generateToken(user.id, res);
@@ -104,7 +107,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
     res.cookie('jwt', '', { maxAge: 0 });
     res.status(200).json({ message: 'Logged out successfully' });
