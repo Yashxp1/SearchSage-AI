@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/genai": "^0.8.0",
+    "@google/generative-ai": "^0.24.0",
     "@prisma/client": "^6.6.0",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",

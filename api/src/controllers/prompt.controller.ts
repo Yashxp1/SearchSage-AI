@@ -1,8 +1,10 @@
-import { Request, Response } from 'express';
+import { Response, Request } from 'express';
 import axios from 'axios';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import prisma from '../db/prisma';
 
-const apiKey = process.env.GEMINI_API;
+const apiKey = process.env.GEMINI_API as string;
+const genAI = new GoogleGenerativeAI(apiKey);
 
 export const createPrompt = async (
   req: Request,
@@ -12,43 +14,28 @@ export const createPrompt = async (
   const userId = req.user.id;
 
   try {
-    const aiResponse = await axios.post(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-      {
-        content: [
-          {
-            parts: [
-              {
-                text: `Summarize what this user might be looking for: ${content}`,
-              },
-            ],
-          },
-        ],
-      }
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const result = await model.generateContent(
+      `Summarize the user's input below and clearly state what the user is trying to achieve or find. Be concise and specific and then name the thing that user might be looking for: ${content}`
     );
 
-    const summary = aiResponse.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const response = result.response;
+    const summary = response.text() || 'No summary generated';
 
-    if (!summary) {
-      console.error(
-        'Could not extract text from AI response:',
-        aiResponse.data
-      );
-
-      res.status(500).json({ message: 'Failed to parse AI response' });
-      return;
-    }
-
-    await prisma.prompt.create({
+    const savedPrompt = await prisma.prompt.create({
       data: {
         userId,
         content,
-       summary,
+        summary,
       },
     });
 
-    res.status(200).json({ summary });
-    
+    res.status(200).json({
+      id: savedPrompt.id,
+      content,
+      summary,
+      createdAt: savedPrompt.createdAt,
+    });
   } catch (error) {
     console.error('Error calling AI API:', error);
     res

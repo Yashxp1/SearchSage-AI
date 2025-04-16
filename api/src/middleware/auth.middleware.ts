@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import prisma from '../db/prisma.js';
+import prisma from '../db/prisma';
 import { Request, Response, NextFunction } from 'express';
 
 interface DecodedToken extends JwtPayload {
@@ -22,25 +22,27 @@ const protectRoute = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const token = req.cookies.jwt;
 
     if (!token) {
-      return res.status(401).json({
+      res.status(401).json({
         error: 'Unauthorized - No token provided',
       });
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
 
     if (!decoded) {
-      return res.status(401).json({ error: 'Unauthorized - Invalid Token' });
+      res.status(401).json({ error: 'Unauthorized - Invalid Token' });
+      return;
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        id: decoded.userId,
+        id: Number(decoded.userId),
       },
       select: {
         id: true,
@@ -50,10 +52,13 @@ const protectRoute = async (
     });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
 
     req.user = user;
+
+    next()
   } catch (error: any) {
     console.log('Error in protectRoute middleware', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
