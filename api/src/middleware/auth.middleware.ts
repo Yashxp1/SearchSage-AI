@@ -3,14 +3,16 @@ import prisma from '../db/prisma.js';
 import { Request, Response, NextFunction } from 'express';
 
 interface DecodedToken extends JwtPayload {
-  userId: string;
+  userId: number;
 }
 
 declare global {
   namespace Express {
     export interface Request {
       user: {
-        id: string;
+        id: number;
+        name: string;
+        username: string;
       };
     }
   }
@@ -58,4 +60,4 @@ const protectRoute = async (
   }
 };
 
-export default protectRoute
+export default protectRoute;
