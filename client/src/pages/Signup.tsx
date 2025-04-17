@@ -1,15 +1,43 @@
+import { useNavigate } from 'react-router-dom';
+
 const Signup = () => {
+  const navigate = useNavigate()
+
   return (
-    <div className="justify-center items-center flex ">
-      <div>
-        <h1>SIGNUP FORM</h1>
-        <div className="border">
-          <input type="text" placeholder="Name"/>
-          <input type="text" placeholder="Username"/>
-          <input type="password" placeholder="Password"/>
+    <form>
+      <div className="font-zilla">
+        <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className="py-12 rounded-lg border-pink-600 px-8">
+            <h1 className="text-center text-xl font-semibold sm:text-2xl md:text-4xl my-5 lg:text-6xl text-pink-500">
+              Signup
+            </h1>
+
+            <div className="flex flex-col min-w-xs">
+              <input
+                type="text"
+                placeholder="Name"
+                className="py-1 rounded-sm px-2 border-2  bg-pink-900 border-pink-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-300 outline-none transition m-2"
+              />
+              <input
+                type="text"
+                placeholder="username"
+                className="py-1 rounded-sm px-2 border-2  bg-pink-900 border-pink-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-300 outline-none transition m-2"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="py-1 rounded-sm px-2 border-2  bg-pink-900 border-pink-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-300 outline-none transition m-2"
+              />
+            </div>
+
+            <div className="flex gap-3 justify-center items-center my-4 ">
+              <button className="border-2 cursor-pointer bg-pink-400 hover:bg-pink-600 py-1 rounded-sm px-10 border-pink-400 ">Signup</button>
+              <button onClick={() => navigate('/login')} className="border-2 cursor-pointer bg-pink-400 hover:bg-pink-600 py-1 rounded-sm px-10 border-pink-400 ">Login</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
