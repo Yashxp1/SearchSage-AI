@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useAuth } from '../store/apiStore';
 
 const Login = () => {
-  const navigate = useNavigate();
-
+  
   const auth = useAuth()
+  const navigate = useNavigate();
 
   if(!auth) {
     throw new Error('Auth context not available');
@@ -22,7 +22,8 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login(formData.username, formData.password);
+     // @ts-ignore
+    login(formData.username, formData.password, navigate);
   };
 
   return (
