@@ -3,17 +3,18 @@ import AppLayout from './Layout/AppLayout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Home from './pages/Home';
-
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      { path: '/signup', element: <Signup /> },
-      { path: '/login', element: <Login /> },
       { path: '/', element: <Home /> },
+      { path: '/dashboard', element: <Dashboard /> },
     ],
   },
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <Signup /> },
 ]);
 
 const App = () => {

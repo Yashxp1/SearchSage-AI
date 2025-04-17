@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '../utils';
+import { signup } from '../store/apiStore';
 import { useState } from 'react';
 
 const Signup = () => {
@@ -11,27 +11,6 @@ const Signup = () => {
     password: '',
   });
 
-  const signup = async (name: string, username: string, password: string) => {
-    try {
-      const res = await fetch(`${baseURL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({ name, username, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Signup failed');
-      }
-
-      const result = await res.json();
-      console.log('signup success: ', result);
-      navigate('/login');
-    } catch (error) {
-      console.log('Error in signup', error);
-    }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
