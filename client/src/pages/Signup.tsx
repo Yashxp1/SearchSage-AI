@@ -1,16 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../store/apiStore';
+import { useAuth } from '../store/apiStore';
 import { useState } from 'react';
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const auth = useAuth();
+
+  if (!auth) {
+    throw new Error('Auth context not available');
+  }
+
+  const { signup } = auth;
 
   const [formData, setFormData] = useState({
     name: '',
     username: '',
     password: '',
   });
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

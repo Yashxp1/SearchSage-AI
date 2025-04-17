@@ -1,9 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { login} from '../store/apiStore';
 import { useState } from 'react';
+import { useAuth } from '../store/apiStore';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const auth = useAuth()
+
+  if(!auth) {
+    throw new Error('Auth context not available');
+  }
+
+  const { login } = auth; 
+
 
   const [formData, setFormData] = useState({ username: '', password: '' });
 
@@ -27,17 +36,17 @@ const Login = () => {
 
             <div className="flex flex-col min-w-xs">
               <input
-                name="username"
-                onChange={handleChange}
                 value={formData.username}
+                onChange={handleChange}
+                name="username"
                 type="text"
                 placeholder="username"
                 className="py-1 rounded-sm px-2 border-2  bg-pink-900 border-pink-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-300 outline-none transition m-2"
               />
               <input
-                name="password"
                 value={formData.password}
                 onChange={handleChange}
+                name="password"
                 type="password"
                 placeholder="Password"
                 className="py-1 rounded-sm px-2 border-2  bg-pink-900 border-pink-500 focus:border-pink-500 focus:ring-2 focus:ring-pink-300 outline-none transition m-2"
