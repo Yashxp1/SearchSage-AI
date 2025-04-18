@@ -10,7 +10,7 @@ interface authContextType {
 
 export const AuthContext = createContext<authContextType | null>(null);
 
-// ✅ Keep AuthProvider clean — no hooks outside React Router scope
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signup = async (
     name: string,
