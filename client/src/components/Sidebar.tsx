@@ -20,7 +20,7 @@ const sidebarMenu = [
 const Sidebar = () => {
   return (
     <div className="">
-      <div className="border border-gray-300 m-2 rounded-lg flex flex-col p-2">
+      <div className="border border-gray-800 m-2 rounded-lg flex flex-col p-2">
         <span className="">
           {sidebarMenu.map((items, idx) => (
             <div key={idx} className='flex justify-start items-center gap-2 py-1'>

@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     
-    <div className=" font-zilla">
+    <div className=" font-zilla bg-black text-white">
       <RouterProvider router={router} />
     </div>
   );
