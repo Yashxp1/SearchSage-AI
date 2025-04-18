@@ -32,7 +32,7 @@ export const useSearchStore = create<PromptState>((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const res = await axios.post<PromptData>('/api/prompt', { content });
+      const res = await axios.post<PromptData>('/summary', { content });
       set({ prompt: res.data, isLoading: false });
     } catch (error: any) {
       toast.error(error?.response?.data?.message || 'Something went wrong');
