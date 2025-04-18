@@ -5,11 +5,9 @@ import { useNavigate } from 'react-router-dom';
 interface authContextType {
   signup: (name: string, username: string, password: string) => Promise<void>;
   login: (username: string, password: string) => Promise<void>;
-
 }
 
 export const AuthContext = createContext<authContextType | null>(null);
-
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signup = async (
@@ -22,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const res = await fetch(`${baseURL}/auth/signup`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ name, username, password }),
       });
 
@@ -43,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const res = await fetch(`${baseURL}/auth/login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
 
@@ -62,6 +62,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => useContext(AuthContext);

@@ -100,6 +100,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     generateToken(String(user.id), res);
 
+    console.log('SIGNING token with JWT_SECRET:', process.env.JWT_SECRET);
+    // const token = generateToken(user.id.toString(), res);
+
     res.status(200).json({
       message: 'User logged in successfully!',
       id: user.id,

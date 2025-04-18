@@ -33,7 +33,11 @@ const protectRoute = async (
       return;
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
+    if (!process.env.JWT_SECRET) {
+      throw new Error('Error in jwt string');
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as DecodedToken;
 
     if (!decoded) {
       res.status(401).json({ error: 'Unauthorized - Invalid Token' });
@@ -58,7 +62,9 @@ const protectRoute = async (
 
     req.user = user;
 
-    next()
+    console.log('Token from cookie:', req.cookies.jwt);
+
+    next();
   } catch (error: any) {
     console.log('Error in protectRoute middleware', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
